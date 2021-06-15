@@ -1,3 +1,7 @@
+# Files I ignored
+note.txt
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
