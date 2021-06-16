@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-this is list    
+<div class="container">
+    <div class="row">
+      <div class="col-7">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">name</th>
+              <th scope="col">brand name</th>
+              <th scope="col">price</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for product in products %}
+                  <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td><a href="#"> {{ product.title }} </a></td>
+                  <td>{{ product.brand }}</td>
+                  <td>{{ product.price }}</td>
+                  <!-- <td>
+                    <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                  </td> -->
+                  </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-3">
+          <form method="GET">
+            {{ product_filter.form.as_p }}
+            <button type="submit">Search</button>
+          </form>
+      </div>
+    </div>
+</div>
 {% endblock %}

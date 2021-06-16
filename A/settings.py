@@ -20,6 +20,8 @@ INSTALLED_APPS = [
 
     'main',
     'product',
+
+    'django_filters',
 ]
 
 MIDDLEWARE = [

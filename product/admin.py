@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Banner,Category,Brand,Color,Size,Product,ProductAttribute
+from .models import (Banner, Category, 
+                    Brand, Color
+                    , Size, Product, 
+                    ProductAttribute, )
 
 # admin.site.register(Banner)
 admin.site.register(Brand)
