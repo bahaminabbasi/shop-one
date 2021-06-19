@@ -2,12 +2,19 @@ from typing import Tuple
 from django.db import models
 from django.db.models.fields import DecimalField
 from django.utils.html import mark_safe
+from django.urls import reverse
+from django_filters import parse_version
 
 
 # Category
 class Category(models.Model):
-    title=models.CharField(max_length=100)
-    # image=models.ImageField(upload_to="cat_imgs/")
+    title               = models.CharField(max_length=100)
+    nesting_level       = models.PositiveBigIntegerField(default=1, blank=True, null=True)
+    parent              = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
+    slug                = models.SlugField(max_length=60, null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('product:category', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name_plural='2. Categories'
