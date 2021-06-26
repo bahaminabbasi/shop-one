@@ -4,6 +4,20 @@ from django.db.models.fields import DecimalField
 from django.utils.html import mark_safe
 from django.urls import reverse
 from django_filters import parse_version
+# from django.http import request
+
+
+
+
+class CustomQuerySet(models.QuerySet):
+    def related_categories(self):
+        # selected_cat = 'this'
+        # cat = Category.objects.filter(title=selected_cat).first()
+        # parent_cat = cat.parent
+        # if parent_cat is not None:
+        #     return Category.objects.filter(parent_cat=parent_cat)
+        # return selected_cat
+        pass
 
 
 # Category
@@ -24,6 +38,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+    
+    objects = CustomQuerySet.as_manager()
 
 
 # Brand
