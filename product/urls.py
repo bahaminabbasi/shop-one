@@ -9,7 +9,7 @@ app_name = 'product'
 urlpatterns = [
     path('list-view/', list_view, name="list-view"),
     path('product-catalog/', product_catalog, name="product-catalog"),
-    path('cat-filter/<slug:slug>', cat_filter, name='category'),
+    path('cat-filter/<slug:slug>/', cat_filter, name='category'),
 ]
 
 if settings.DEBUG:

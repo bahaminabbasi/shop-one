@@ -1,27 +1,53 @@
 from django import forms
+from django.db.models import query
+from django.http import request
 import django_filters
 
 from .models import *
 
+
 class ProductFilter(django_filters.FilterSet):
-    def get_cat(self):
-        pass
+    def __init__(self, *args, **kwargs):
+        self.current_cat = kwargs.pop('current_cat', None)
+        super(ProductFilter, self).__init__(*args, **kwargs)
 
-    # price = django_filters.NumberFilter()
-    price__gt = django_filters.NumberFilter(field_name='price', lookup_expr='gt')
-    price__lt = django_filters.NumberFilter(field_name='price', lookup_expr='lt')
+        # self.fields['height'].widget = forms.TextInput(attrs={'size':site_id})
 
-    category = django_filters.ModelMultipleChoiceFilter(
-        field_name='category',
-        queryset=Category.objects.filter(nesting_level=0),
-        widget=forms.CheckboxSelectMultiple(),
+        self.category = django_filters.ModelMultipleChoiceFilter(
+                                    field_name='category',
+                                    queryset=Category.objects.filter(title=self.current_cat),
+                                    widget=forms.CheckboxSelectMultiple(),
     )
+
+    # height = forms.CharField()
+    # category = forms.CheckboxSelectMultiple()
+
+    # category = django_filters.ModelMultipleChoiceFilter(
+    #     field_name='category',
+    #     queryset=Category.objects.filter(),
+    #     widget=forms.CheckboxSelectMultiple(),
+    # )
 
     brand = django_filters.ModelMultipleChoiceFilter(
         field_name='brand',
         queryset=Brand.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
     )
+
+    price__gt = django_filters.NumberFilter(field_name='price', lookup_expr='gt')
+    price__lt = django_filters.NumberFilter(field_name='price', lookup_expr='lt')
+
+
+
+    # class Meta:
+    #     model = Product
+    #     fields = '__all__'
+    #     exclude = ['title', 'slug', 'detail', 'specs', 'status', 'is_featured', 'price']
+    
+
+
+
+
 
 
     # brand = django_filters.ModelMultipleChoiceFilter(
