@@ -1,23 +1,59 @@
 from django import forms
 import django_filters
+from django_filters import OrderingFilter
 
 from .models import *
 
 
 class ProductFilter(django_filters.FilterSet):
-  
-    category = django_filters.ModelMultipleChoiceFilter(
-        field_name='category',
-        queryset=Category.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+    def __init__(self, *args, **kwargs):
+        self.current_cat = kwargs.pop('current_cat', None)
+        self.brands_qs = kwargs.pop('brands_qs', None)
+        super(ProductFilter, self).__init__(*args, **kwargs)       
+        self.filters['category'] = django_filters.ModelMultipleChoiceFilter(
+                field_name='category',
+                queryset=Category.objects.filter(parent=self.current_cat.parent, nesting_level=1),
+                widget=forms.CheckboxSelectMultiple(),
+                )
+      
+        self.filters['brand'] = django_filters.ModelMultipleChoiceFilter(
+                field_name='brand',
+                queryset=self.brands_qs,
+                widget=forms.CheckboxSelectMultiple(),
+                )
+
+    o = OrderingFilter(
+        # tuple-mapping retains order
+        fields=(
+            ('price', 'قیمت'),
+            ),
+
+        # # labels do not need to retain order
+        # field_labels={
+        #     'username': 'User account',
+        # }
     )
 
-    brand = django_filters.ModelMultipleChoiceFilter(
-        field_name='brand',
-        queryset=Brand.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
-    )
+    # brand = django_filters.ModelMultipleChoiceFilter(
+    #     field_name='brand',
+    #     queryset=Brand.objects.all(),
+    #     widget=forms.CheckboxSelectMultiple(),
+    # )
 
+    # class Meta:
+    #     model = Product
+    #     fields = '__all__'
+    #     exclude = ['title', 'slug', 'detail', 'specs', 'status', 'is_featured', 'price']
+
+
+    
+
+
+# category = django_filters.ModelMultipleChoiceFilter(
+#         field_name='category',
+#         queryset=Category.objects.filter(title=self.current_cat),
+#         widget=forms.CheckboxSelectMultiple(),
+#         )
     # @property
     # def qs(self):
     #     parent = super().qs
