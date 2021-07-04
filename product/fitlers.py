@@ -5,6 +5,16 @@ from django_filters import OrderingFilter
 from .models import *
 
 
+# >>> UserFilter().filters['o'].field.choices
+# [
+#     ('account', 'User account'),
+#     ('-account', 'User account (descending)'),
+#     ('first_name', 'First name'),
+#     ('-first_name', 'First name (descending)'),
+#     ('last_name', 'Last name'),
+#     ('-last_name', 'Last name (descending)'),
+# ]
+
 class ProductFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         self.current_cat = kwargs.pop('current_cat', None)
@@ -15,22 +25,23 @@ class ProductFilter(django_filters.FilterSet):
                 queryset=Category.objects.filter(parent=self.current_cat.parent, nesting_level=1),
                 widget=forms.CheckboxSelectMultiple(),
                 )
-      
         self.filters['brand'] = django_filters.ModelMultipleChoiceFilter(
                 field_name='brand',
                 queryset=self.brands_qs,
                 widget=forms.CheckboxSelectMultiple(),
                 )
+        self.filters['ordering'].field.choices = [('price', 'قیمت'),
+                               ('-price', 'قیمت (نزولی)'),]
 
-    o = OrderingFilter(
+    ordering = OrderingFilter(
         # tuple-mapping retains order
         fields=(
-            ('price', 'قیمت'),
+            ('price', 'price'),
             ),
 
         # # labels do not need to retain order
         # field_labels={
-        #     'username': 'User account',
+        #     'price': 'قیمت',
         # }
     )
 

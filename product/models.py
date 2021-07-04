@@ -1,23 +1,10 @@
-from typing import Tuple
 from django.db import models
-from django.db.models.fields import DecimalField
-from django.utils.html import mark_safe
 from django.urls import reverse
-from django_filters import parse_version
-# from django.http import request
+from django.utils.html import mark_safe
+from A.utils import shamsi_date
 
 
 
-
-class CustomQuerySet(models.QuerySet):
-    def related_categories(self):
-        # selected_cat = 'this'
-        # cat = Category.objects.filter(title=selected_cat).first()
-        # parent_cat = cat.parent
-        # if parent_cat is not None:
-        #     return Category.objects.filter(parent_cat=parent_cat)
-        # return selected_cat
-        pass
 
 
 # Category
@@ -39,12 +26,13 @@ class Category(models.Model):
     def __str__(self):
         return self.title
     
-    objects = CustomQuerySet.as_manager()
-
 
 # Brand
 class Brand(models.Model):
-    title=models.CharField(max_length=100)
+    title           = models.CharField(max_length=100)
+    detail          = models.TextField(default='no details yet')
+
+
     # image=models.ImageField(upload_to="brand_imgs/")
 
     class Meta:
@@ -58,15 +46,17 @@ class Brand(models.Model):
 
 # Product Model
 class Product(models.Model):
-    title=models.CharField(max_length=200)
-    slug=models.CharField(max_length=400)
-    detail=models.TextField()
-    specs=models.TextField()
-    price = models.IntegerField(blank=True, null=True, default=17)
-    category=models.ForeignKey(Category,on_delete=models.CASCADE)
-    brand=models.ForeignKey(Brand,on_delete=models.CASCADE)
-    status=models.BooleanField(default=True)
-    is_featured=models.BooleanField(default=False)
+    title               = models.CharField(max_length=200)
+    slug                = models.CharField(max_length=400)
+    detail              = models.TextField()
+    specs               = models.TextField()
+    price               = models.IntegerField(blank=True, null=True, default=17)
+    category            = models.ForeignKey(Category,on_delete=models.CASCADE)
+    brand               = models.ForeignKey(Brand,on_delete=models.CASCADE)
+    status              = models.BooleanField(default=True)
+    is_featured         = models.BooleanField(default=False)
+    date                = models.CharField(max_length=200, default=shamsi_date,
+                                                blank=True, null=True)
 
     class Meta:
         verbose_name_plural='6. Products'
@@ -82,8 +72,8 @@ class Product(models.Model):
 
 # Color
 class Color(models.Model):
-    title=models.CharField(max_length=100)
-    color_code=models.CharField(max_length=100)
+    title                = models.CharField(max_length=100)
+    color_code           = models.CharField(max_length=100)
 
     class Meta:
         verbose_name_plural='4. Colors'
@@ -96,7 +86,7 @@ class Color(models.Model):
 
 # Size
 class Size(models.Model):
-    title=models.CharField(max_length=100)
+    title               = models.CharField(max_length=100)
 
     class Meta:
         verbose_name_plural='5. Sizes'
@@ -107,11 +97,12 @@ class Size(models.Model):
 
 # Product Attribute
 class ProductAttribute(models.Model):
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    color=models.ForeignKey(Color,on_delete=models.CASCADE)
-    size=models.ForeignKey(Size,on_delete=models.CASCADE)
-    price=models.PositiveIntegerField(default=0)
-    image=models.ImageField(upload_to="product_imgs/",null=True)
+    product             = models.ForeignKey(Product,on_delete=models.CASCADE)
+    color               = models.ForeignKey(Color,on_delete=models.CASCADE)
+    size                = models.ForeignKey(Size,on_delete=models.CASCADE)
+    price               = models.PositiveIntegerField(default=0)
+    image               = models.ImageField(upload_to="product_imgs/",null=True)
+    more_detail         = models.TextField(default='no details yet')
 
     class Meta:
         verbose_name_plural='7. ProductAttributes'
@@ -126,8 +117,8 @@ class ProductAttribute(models.Model):
 
 # Banner
 class Banner(models.Model):
-    img=models.ImageField(upload_to="banner_imgs/")
-    alt_text=models.CharField(max_length=300)
+    img                 = models.ImageField(upload_to="banner_imgs/")
+    alt_text            = models.CharField(max_length=300)
 
     class Meta:
         verbose_name_plural='1. Banners'

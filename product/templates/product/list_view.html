@@ -30,8 +30,13 @@
         </table>
       </div>
       <div class="col-3">
-          <form method="GET">
-            {{ product_filter.form.as_p }}
+          <form method="GET" >
+            <label for="">Category</label>
+            {{ product_filter.form.category }}
+            <label for="">Brand</label>
+            {{ product_filter.form.brand }}
+            <label for="">Price</label>
+            {{ product_filter.form.ordering }}
             <button type="submit">Search</button>
           </form>
       </div>
