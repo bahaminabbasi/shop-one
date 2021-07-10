@@ -5,6 +5,7 @@ from .models import Product, Category, Brand
 from .fitlers import ProductFilter  
 
 
+
 def list_view(request):
     products = Product.objects.all()
     # product_attributes = ProductAttribute.objects.all()

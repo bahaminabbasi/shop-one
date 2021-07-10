@@ -2,11 +2,13 @@ from django.contrib import admin
 from .models import (Banner, Category, 
                     Brand, Color
                     , Size, Product, 
-                    ProductAttribute, )
+                    ProductAttribute,
+                    Images,)
 
 # admin.site.register(Banner)
 admin.site.register(Brand)
 admin.site.register(Size)
+admin.site.register(Images)
 
 
 class BannerAdmin(admin.ModelAdmin):

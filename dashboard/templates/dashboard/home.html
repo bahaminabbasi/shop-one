@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>DASHBOARD - ADD product</h1>
+<h1>DASHBOARD - HOME</h1>
+    <a href="{% url 'dashboard:add-product' %}">Add Product</a>
+    <br/>
+    <a href="{% url 'dashboard:product-list' %}">Product List</a>
+
+</form>
 {% endblock %}

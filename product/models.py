@@ -6,7 +6,6 @@ from A.utils import shamsi_date
 
 
 
-
 # Category
 class Category(models.Model):
     title               = models.CharField(max_length=100)
@@ -101,7 +100,6 @@ class ProductAttribute(models.Model):
     color               = models.ForeignKey(Color,on_delete=models.CASCADE)
     size                = models.ForeignKey(Size,on_delete=models.CASCADE)
     price               = models.PositiveIntegerField(default=0)
-    image               = models.ImageField(upload_to="product_imgs/",null=True)
     more_detail         = models.TextField(default='no details yet')
 
     class Meta:
@@ -128,3 +126,21 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.alt_text
+
+
+
+class Images(models.Model):
+    image               = models.ImageField(upload_to="new_pictures/")
+    product             = models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_main             = models.BooleanField()
+    title               = models.CharField(max_length=100, blank=True,
+                                             null=True, default=shamsi_date)
+
+    # thumbnail, type = [gallery picture, banner picture, ...]
+
+    class Meta:
+        verbose_name_plural='8. Images'
+
+    def __str__(self):
+        return self.title
+
