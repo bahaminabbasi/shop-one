@@ -45,6 +45,7 @@ class ProductAttributeForm(ModelForm):
 
 
 class FileFieldForm(forms.Form):
+    main_image = forms.ImageField()
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 

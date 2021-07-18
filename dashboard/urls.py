@@ -9,6 +9,7 @@ from .views import (home,
                     add_brand,
                     three_attribute,
                     four_images,
+                    test,
                     )
 
 
@@ -21,6 +22,7 @@ urlpatterns = [
     path('product_list/', product_list, name='product-list'),
     path('product_edit/<int:id>', product_edit, name='product-edit'),
     path('add_brand/', add_brand, name='add-brand'),
+    path('test/', test, name='test'),
 
     # 4 Steps:
     path('one_brand_cat_choose/', one_brand_cat_choose, name='one-brand-cat-choose'),

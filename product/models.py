@@ -104,7 +104,7 @@ class Banner(models.Model):
 class Images(models.Model):
     image               = models.ImageField(upload_to="new_pictures/")
     product             = models.ForeignKey(Product, on_delete=models.CASCADE)
-    is_main             = models.BooleanField()
+    is_main             = models.BooleanField(default=False)
     title               = models.CharField(max_length=100, blank=True,
                                              null=True, default=shamsi_date)
 
@@ -114,5 +114,5 @@ class Images(models.Model):
         verbose_name_plural='8. Images'
 
     def __str__(self):
-        return self.title
+        return f'pic for {self.product.title}'
 

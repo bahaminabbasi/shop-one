@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from product.models import Category, Product, Brand
+from product.models import Category, Product, Brand, Images
 from .forms import ProductForm, BrandForm, ProductAttributeForm, ImageForm, FileFieldForm
 
 
@@ -15,12 +15,9 @@ def add_product(request):
         form.save()   
     else:
         form = ProductForm()
-    print(ProductForm.__dict__)
-
     context = {
         'form': form,
     }
-    
     return render(request, 'dashboard/add_product.html', context)
 
 
@@ -45,11 +42,9 @@ def product_edit(request, id):
     return render(request, 'dashboard/product_edit.html', context)
 
 
-
 def one_brand_cat_choose(request):
     categories = Category.objects.all()
     brands = Brand.objects.all()
-
     if request.method == 'POST':
         category = request.POST['select_categories']
         brand = request.POST['select_brand']
@@ -93,20 +88,16 @@ def three_attribute(request, product):
 
 
 def four_images(request, product):
-
+    product = Product.objects.filter(title=product).first()
     if request.method == 'POST':
         form = FileFieldForm(request.POST)
-        files = request.FILES
-        print()
-        print(form.errors)
-        print()
-        if form.is_valid():
-            for f in files:
-                print(f)     
-        else:
-            print()
-            print("FAIIIIIIL")
-            print()
+        files = request.FILES.getlist('file_field')
+        main_image = request.FILES.get('main_image')
+        i = Images(image=main_image, product=product, is_main=True)
+        i.save()
+        for f in files:
+            i = Images(image=f, product=product)
+            i.save()
         return redirect('dashboard:home')
     else:
         form = FileFieldForm()
@@ -125,3 +116,8 @@ def add_brand(request):
             return redirect('dashboard:one-brand-cat-choose')
     else:
         return render(request, 'dashboard/one_brand_cat_choose.html')
+
+
+def test(request):
+    context = {}
+    return render(request, 'dashboard/test.html', context)
