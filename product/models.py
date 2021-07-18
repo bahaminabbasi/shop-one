@@ -47,8 +47,8 @@ class Brand(models.Model):
 class Product(models.Model):
     title               = models.CharField(max_length=200)
     slug                = models.CharField(max_length=400)
-    detail              = models.TextField()
-    specs               = models.TextField()
+    detail              = models.TextField(default='test')
+    specs               = models.TextField(default='test')
     price               = models.IntegerField(blank=True, null=True, default=17)
     category            = models.ForeignKey(Category,on_delete=models.CASCADE)
     brand               = models.ForeignKey(Brand,on_delete=models.CASCADE)
@@ -69,36 +69,12 @@ class Product(models.Model):
 
 
 
-# Color
-class Color(models.Model):
-    title                = models.CharField(max_length=100)
-    color_code           = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name_plural='4. Colors'
-
-    def color_bg(self):
-        return mark_safe('<div style="width:30px; height:30px; background-color:%s"></div>' % (self.color_code))
-
-    def __str__(self):
-        return self.title
-
-# Size
-class Size(models.Model):
-    title               = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name_plural='5. Sizes'
-
-    def __str__(self):
-        return self.title
-
 
 # Product Attribute
 class ProductAttribute(models.Model):
     product             = models.ForeignKey(Product,on_delete=models.CASCADE)
-    color               = models.ForeignKey(Color,on_delete=models.CASCADE)
-    size                = models.ForeignKey(Size,on_delete=models.CASCADE)
+    color               = models.CharField(max_length=120, blank=True, null=True, default='test')
+    description         = models.CharField(max_length=120, blank=True, null=True, default='test')
     price               = models.PositiveIntegerField(default=0)
     more_detail         = models.TextField(default='no details yet')
 
@@ -108,10 +84,6 @@ class ProductAttribute(models.Model):
     def __str__(self):
         return self.product.title
 
-    def image_tag(self):
-        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
-
-    
 
 # Banner
 class Banner(models.Model):

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-
 {% block content %}
-<h1>DASHBOARD - ADD product</h1>
-<form method="POST">
+<h1>DASHBOARD - Add Images</h1>
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-
     {{ form|crispy }}
-    <button type="submit">submit</button>
-    
+    <button type="submit">Submit</button>
 </form>
+
+
+
 {% endblock %}

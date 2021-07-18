@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>DASHBOARD - Brand & Category Choose</h1>
+<br/>
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <form method="POST">
+            {% csrf_token %}
+            <select id="select_categories" name="select_categories" class="form-control">
+                <option>Choose Category</option>
+                {% for category in categories %}
+                    <option value="{{ category.title }}" id="{{ category.title }}" name="{{ brand.title }}">{{ forloop.counter }}. {{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm">
+            <select id="select_brand" name="select_brand" class="form-control">
+                <option>Choose Brand</option>
+                {% for brand in brands %}
+                    <option value="{{ brand.title }}" id="{{ brand.title }}" name="{{ brand.title }}" >{{ forloop.counter }}. {{ brand }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" name="proceed" value="proceed">Proceed</button>
+          </form>
+      </div>
+      <div class="col-sm">
+        Add a New Brand
+        <br/>
+        <form action="{% url 'dashboard:add-brand' %}" method="POST">
+          {% csrf_token %}
+          {{ brand_form }}
+          <button type="submit" name="add_brand" value="add_brand">Add Brand</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
